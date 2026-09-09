@@ -18,7 +18,7 @@ export default function CaseSelector({ onSelectCase }) {
   return (
     <section className="case-selector">
       <div className="case-selector__header">
-        <h2 className="case-selector__title">KHO HÒM ẨM THỰC CS2</h2>
+        <h2 className="case-selector__title">KHO HÒM ẨM THỰC</h2>
         <p className="case-selector__subtitle">
           Chọn một chiếc hòm để bắt đầu mở ra số phận bữa ăn của bạn hôm nay!
         </p>
