@@ -27,6 +27,13 @@ export const RARITY_COLORS = {
   gold: '#f0c040',
 };
 
+export const GOLD_SPECIAL_CARD = {
+  isSpecialGold: true,
+  name: '★ MÓN ĂN ĐẶC BIỆT BÍ ẨN ★',
+  rarity: 'gold',
+  tier: '★ EXCEEDINGLY RARE SPECIAL ITEM ★',
+};
+
 export const MEAT_FOODS = [
   {
     name: 'Phở Bò',
@@ -482,17 +489,398 @@ export const SECRET_GOLD_VEG = [
   },
 ];
 
-/** Thẻ hiển thị bí ẩn trên thanh cuộn (như thẻ Dao ẩn trong CS2) */
-export const GOLD_SPECIAL_CARD = {
-  isSpecialGold: true,
-  name: '★ Món Siêu Hiếm ★',
-  rarity: 'gold',
-  tier: '★ SPECIAL RARE ITEM ★',
-};
+/**
+ * 🍟 HÒM ĂN VẶT (CỨU ĐÓI XẾ CHIỀU)
+ */
+export const SNACK_FOODS = [
+  {
+    name: 'Bánh Tráng Trộn',
+    image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'bánh tráng trộn',
+    rarity: 'blue',
+  },
+  {
+    name: 'Xiên Que / Cá Viên Chiên',
+    image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=400&h=400&fit=crop&auto=format',
+    price: 30000,
+    search: 'cá viên chiên xiên que',
+    rarity: 'blue',
+  },
+  {
+    name: 'Nem Chua Rán',
+    image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=400&fit=crop&auto=format',
+    price: 35000,
+    search: 'nem chua rán',
+    rarity: 'purple',
+  },
+  {
+    name: 'Chân Gà Sả Tắc',
+    image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400&h=400&fit=crop&auto=format',
+    price: 45000,
+    search: 'chân gà sả tắc',
+    rarity: 'pink',
+  },
+  {
+    name: 'Khoai Lang Lắc Phô Mai',
+    image: 'https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'khoai lang lắc phô mai',
+    rarity: 'blue',
+  },
+  {
+    name: 'Trứng Cút Lộn Xào Me',
+    image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400&h=400&fit=crop&auto=format',
+    price: 30000,
+    search: 'cút lộn xào me',
+    rarity: 'purple',
+  },
+  {
+    name: 'Gà Rán Giòn Rụm',
+    image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=400&fit=crop&auto=format',
+    price: 45000,
+    search: 'gà rán',
+    rarity: 'pink',
+  },
+  {
+    name: 'Bánh Tráng Nướng',
+    image: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'bánh tráng nướng',
+    rarity: 'blue',
+  },
+  {
+    name: 'Bắp Xào Bơ Tép',
+    image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=400&fit=crop&auto=format',
+    price: 20000,
+    search: 'bắp xào bơ tép',
+    rarity: 'gray',
+  },
+  {
+    name: 'Tokbokki Phô Mai',
+    image: 'https://images.unsplash.com/photo-1555126634-323283e090fa?w=400&h=400&fit=crop&auto=format',
+    price: 40000,
+    search: 'tokbokki',
+    rarity: 'purple',
+  },
+  {
+    name: 'Phô Mai Que',
+    image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=400&fit=crop&auto=format',
+    price: 30000,
+    search: 'phô mai que',
+    rarity: 'blue',
+  },
+  {
+    name: 'Bánh Gối Giòn Rụm',
+    image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'bánh gối',
+    rarity: 'gray',
+  },
+  {
+    name: 'Bánh Tráng Cuốn Bơ',
+    image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'bánh tráng cuốn bơ',
+    rarity: 'blue',
+  },
+  {
+    name: 'Đậu Hũ Chiên Giòn Mắm Tôm',
+    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'đậu hũ chiên giòn',
+    rarity: 'gray',
+  },
+  {
+    name: 'Mẹt Ăn Vặt Thập Cẩm',
+    image: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=400&h=400&fit=crop&auto=format',
+    price: 70000,
+    search: 'mẹt ăn vặt',
+    rarity: 'red',
+  },
+];
 
-/** Lấy ngẫu nhiên 1 món Vàng Secret khi quay trúng */
-export function getRandomSecretGold(isVeg = false) {
-  const pool = isVeg ? SECRET_GOLD_VEG : SECRET_GOLD_MEAT;
+/**
+ * 🧋 HÒM TRÀ SỮA & ĐỒ UỐNG (GIẢI KHÁT)
+ */
+export const DRINK_FOODS = [
+  {
+    name: 'Trà Sữa Trân Châu Đường Đen',
+    image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=400&fit=crop&auto=format',
+    price: 35000,
+    search: 'trà sữa trân châu đường đen',
+    rarity: 'purple',
+  },
+  {
+    name: 'Trà Đào Cam Sả',
+    image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&h=400&fit=crop&auto=format',
+    price: 35000,
+    search: 'trà đào cam sả',
+    rarity: 'blue',
+  },
+  {
+    name: 'Cà Phê Muối',
+    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'cà phê muối',
+    rarity: 'blue',
+  },
+  {
+    name: 'Trà Vải Lài',
+    image: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=400&h=400&fit=crop&auto=format',
+    price: 35000,
+    search: 'trà vải lài',
+    rarity: 'blue',
+  },
+  {
+    name: 'Bạc Xỉu Đá Sài Gòn',
+    image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'bạc xỉu đá',
+    rarity: 'gray',
+  },
+  {
+    name: 'Trà Chanh Giã Tay',
+    image: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'trà chanh giã tay',
+    rarity: 'gray',
+  },
+  {
+    name: 'Sinh Tố Bơ Đắk Lắk',
+    image: 'https://images.unsplash.com/photo-1579954115545-a95591f28bfc?w=400&h=400&fit=crop&auto=format',
+    price: 40000,
+    search: 'sinh tố bơ',
+    rarity: 'pink',
+  },
+  {
+    name: 'Matcha Latte Kem Trứng',
+    image: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=400&h=400&fit=crop&auto=format',
+    price: 45000,
+    search: 'matcha latte kem trứng',
+    rarity: 'pink',
+  },
+  {
+    name: 'Trà Mãng Cầu Đậm Vị',
+    image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=400&h=400&fit=crop&auto=format',
+    price: 35000,
+    search: 'trà mãng cầu',
+    rarity: 'blue',
+  },
+  {
+    name: 'Nước Mía Sầu Riêng',
+    image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400&h=400&fit=crop&auto=format',
+    price: 20000,
+    search: 'nước mía sầu riêng',
+    rarity: 'gray',
+  },
+  {
+    name: 'Sinh Tố Xoài Cốt Dừa',
+    image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=400&fit=crop&auto=format',
+    price: 35000,
+    search: 'sinh tố xoài',
+    rarity: 'blue',
+  },
+  {
+    name: 'Trà Oolong Sữa Nướng',
+    image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=400&fit=crop&auto=format',
+    price: 45000,
+    search: 'trà ô long sữa nướng',
+    rarity: 'red',
+  },
+];
+
+/**
+ * 🍨 HÒM TRÁNG MIỆNG & ĐỒ NGỌT
+ */
+export const DESSERT_FOODS = [
+  {
+    name: 'Bingsu Xoài Phô Mai',
+    image: 'https://images.unsplash.com/photo-1576506295286-5cda18df43e7?w=400&h=400&fit=crop&auto=format',
+    price: 75000,
+    search: 'bingsu xoài',
+    rarity: 'red',
+  },
+  {
+    name: 'Chè Khúc Bạch Thanh Mát',
+    image: 'https://images.unsplash.com/photo-1551106652-a5bcf4b29ab6?w=400&h=400&fit=crop&auto=format',
+    price: 35000,
+    search: 'chè khúc bạch',
+    rarity: 'purple',
+  },
+  {
+    name: 'Tàu Hũ Trân Châu Cốt Dừa',
+    image: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'tàu hũ trân châu',
+    rarity: 'blue',
+  },
+  {
+    name: 'Bánh Flan Caramel Cà Phê',
+    image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&h=400&fit=crop&auto=format',
+    price: 20000,
+    search: 'bánh flan',
+    rarity: 'gray',
+  },
+  {
+    name: 'Kem Bơ Sầu Riêng Côn Đảo',
+    image: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=400&h=400&fit=crop&auto=format',
+    price: 45000,
+    search: 'kem bơ sầu riêng',
+    rarity: 'pink',
+  },
+  {
+    name: 'Chè Sầu Riêng Đà Nẵng',
+    image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400&h=400&fit=crop&auto=format',
+    price: 40000,
+    search: 'chè sầu riêng',
+    rarity: 'purple',
+  },
+  {
+    name: 'Chè Bưởi An Giang',
+    image: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400&h=400&fit=crop&auto=format',
+    price: 25000,
+    search: 'chè bưởi',
+    rarity: 'blue',
+  },
+  {
+    name: 'Bánh Crepe Sầu Riêng',
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=400&fit=crop&auto=format',
+    price: 45000,
+    search: 'bánh crepe sầu riêng',
+    rarity: 'pink',
+  },
+];
+
+/**
+ * SECRET GOLD CHO TỪNG HÒM
+ */
+export const SECRET_GOLD_SNACKS = [
+  {
+    isSpecialGold: true,
+    name: '★ Đại Tiệc Buffet Xiên Bẩn Không Đáy ★',
+    image: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=500&h=500&fit=crop&auto=format',
+    price: 350000,
+    search: 'buffet xiên nướng lẩu',
+    rarity: 'gold',
+    quote: 'Ăn xiên thả ga không nhìn giá, no căng bụng quên lối về!',
+    tier: '★ EXCEEDINGLY RARE SPECIAL ITEM ★',
+  },
+  {
+    isSpecialGold: true,
+    name: '★ Mâm Bánh Tráng Hoàng Gia Siêu To Khổng Lồ ★',
+    image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&h=500&fit=crop&auto=format',
+    price: 250000,
+    search: 'bánh tráng mâm khổng lồ',
+    rarity: 'gold',
+    quote: 'Full 12 loại topping thượng hạng, chiến cùng cả hội bạn thân!',
+    tier: '★ EXCEEDINGLY RARE SPECIAL ITEM ★',
+  },
+];
+
+export const SECRET_GOLD_DRINKS = [
+  {
+    isSpecialGold: true,
+    name: '★ Xô Trà Sữa 5 Lít Full Topping Khổng Lồ ★',
+    image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=500&h=500&fit=crop&auto=format',
+    price: 280000,
+    search: 'trà sữa khổng lồ xô',
+    rarity: 'gold',
+    quote: 'Uống từ sáng đến tối, ngập tràn trong biển trân châu đường đen!',
+    tier: '★ EXCEEDINGLY RARE SPECIAL ITEM ★',
+  },
+  {
+    isSpecialGold: true,
+    name: '★ Cà Phê Chồn Hoàng Gia Tây Nguyên Thượng Phẩm ★',
+    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&h=500&fit=crop&auto=format',
+    price: 500000,
+    search: 'cà phê chồn thượng hạng',
+    rarity: 'gold',
+    quote: 'Hương vị quý tộc đỉnh cao, một ngụm thức tỉnh cả tuần làm việc!',
+    tier: '★ EXCEEDINGLY RARE SPECIAL ITEM ★',
+  },
+];
+
+export const SECRET_GOLD_DESSERTS = [
+  {
+    isSpecialGold: true,
+    name: '★ Đại Tiệc Bingsu Tổ Yến Hoàng Gia ★',
+    image: 'https://images.unsplash.com/photo-1576506295286-5cda18df43e7?w=500&h=500&fit=crop&auto=format',
+    price: 450000,
+    search: 'bingsu cao cấp',
+    rarity: 'gold',
+    quote: 'Ngọt ngào tan chảy, dát cả tổ yến thanh mát quý phái!',
+    tier: '★ EXCEEDINGLY RARE SPECIAL ITEM ★',
+  },
+  {
+    isSpecialGold: true,
+    name: '★ Mâm Đại Tiệc Chè Cung Đình Huế 12 Món ★',
+    image: 'https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=500&h=500&fit=crop&auto=format',
+    price: 350000,
+    search: 'chè cung đình huế',
+    rarity: 'gold',
+    quote: '12 món chè tinh túy triều Nguyễn, trải nghiệm vị giác hoàng cung!',
+    tier: '★ EXCEEDINGLY RARE SPECIAL ITEM ★',
+  },
+];
+
+/** Danh mục các Hòm trong CS2 Food Picker */
+export const CASES_CONFIG = [
+  {
+    id: 'main',
+    name: 'Hòm No Nê',
+    subtitle: 'Bữa Chính Chắc Bụng',
+    desc: 'Cơm, phở, bún, lẩu... Đầy đủ phân hệ Mặn & Chay cho bữa trưa và tối.',
+    icon: '🍖',
+    badge: 'BỮA CHÍNH',
+    color: '#eb4b4b',
+    hasVegToggle: true,
+  },
+  {
+    id: 'snacks',
+    name: 'Hòm Ăn Vặt',
+    subtitle: 'Cứu Đói Xế Chiều',
+    desc: 'Bánh tráng trộn, xiên que, nem chua rán, chân gà sả tắc, khoai lắc phô mai...',
+    icon: '🍟',
+    badge: 'ĂN VẶT',
+    color: '#f0c040',
+    hasVegToggle: false,
+  },
+  {
+    id: 'drinks',
+    name: 'Hòm Trà Sữa & Đồ Uống',
+    subtitle: 'Giải Khát Tỉnh Táo',
+    desc: 'Trà sữa trân châu, trà đào cam sả, cà phê muối, trà chanh giã tay...',
+    icon: '🧋',
+    badge: 'ĐỒ UỐNG',
+    color: '#4b69ff',
+    hasVegToggle: false,
+  },
+  {
+    id: 'desserts',
+    name: 'Hòm Tráng Miệng',
+    subtitle: 'Đồ Ngọt Thăng Hoa',
+    desc: 'Bingsu xoài, chè khúc bạch, tàu hũ trân châu, kem bơ, bánh flan...',
+    icon: '🍨',
+    badge: 'TRÁNG MIỆNG',
+    color: '#d32ce6',
+    hasVegToggle: false,
+  },
+];
+
+/** Lấy ngẫu nhiên 1 món Vàng Secret theo Case và chế độ Chay */
+export function getRandomSecretGold(caseId = 'main', isVeg = false) {
+  let pool;
+  if (caseId === 'snacks') {
+    pool = SECRET_GOLD_SNACKS;
+  } else if (caseId === 'drinks') {
+    pool = SECRET_GOLD_DRINKS;
+  } else if (caseId === 'desserts') {
+    pool = SECRET_GOLD_DESSERTS;
+  } else {
+    pool = isVeg ? SECRET_GOLD_VEG : SECRET_GOLD_MEAT;
+  }
   return pool[Math.floor(Math.random() * pool.length)];
 }
+
 

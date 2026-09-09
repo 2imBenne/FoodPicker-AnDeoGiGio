@@ -1,6 +1,14 @@
-import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import { MEAT_FOODS, VEG_FOODS, BUDGET_OPTIONS } from './data/foods';
+import { useState, useCallback, useRef, useMemo } from 'react';
+import {
+  CASES_CONFIG,
+  MEAT_FOODS,
+  VEG_FOODS,
+  SNACK_FOODS,
+  DRINK_FOODS,
+  DESSERT_FOODS,
+} from './data/foods';
 import { soundEngine } from './utils/sound';
+import CaseSelector from './components/CaseSelector';
 import Reel from './components/Reel';
 import Controls from './components/Controls';
 import ResultModal from './components/ResultModal';
@@ -8,32 +16,43 @@ import ItemGallery from './components/ItemGallery';
 import ParticleCanvas from './components/ParticleCanvas';
 import ConfettiCanvas from './components/ConfettiCanvas';
 
-// Seed counter ban đầu (random khoảng 100k-200k) + localStorage
-function getCounter() {
-  const saved = localStorage.getItem('hom_nay_an_gi_counter');
-  if (saved) return parseInt(saved, 10);
-  const seed = 150000 + Math.floor(Math.random() * 80000);
-  localStorage.setItem('hom_nay_an_gi_counter', seed);
-  return seed;
-}
-
-function incrementCounter(current) {
-  const next = current + 1;
-  localStorage.setItem('hom_nay_an_gi_counter', next);
-  return next;
-}
-
 export default function App() {
+  // selectedCaseId: null = đang ở màn hình chọn hòm, hoặc 'main' | 'snacks' | 'drinks' | 'desserts'
+  const [selectedCaseId, setSelectedCaseId] = useState(null);
   const [isVeg, setIsVeg] = useState(false);
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState(null);
   const [showResult, setShowResult] = useState(false);
-  const [counter, setCounter] = useState(getCounter);
   const [muted, setMuted] = useState(false);
   const confettiRef = useRef(null);
 
-  // Danh sách món theo chế độ Chay / Mặn
-  const foods = isVeg ? VEG_FOODS : MEAT_FOODS;
+  // Lấy thông tin Case hiện tại
+  const currentCase = useMemo(() => {
+    return CASES_CONFIG.find(c => c.id === selectedCaseId) || CASES_CONFIG[0];
+  }, [selectedCaseId]);
+
+  // Lấy danh sách món ăn cho Case đang mở
+  const foods = useMemo(() => {
+    if (selectedCaseId === 'snacks') return SNACK_FOODS;
+    if (selectedCaseId === 'drinks') return DRINK_FOODS;
+    if (selectedCaseId === 'desserts') return DESSERT_FOODS;
+    return isVeg ? VEG_FOODS : MEAT_FOODS;
+  }, [selectedCaseId, isVeg]);
+
+  const handleSelectCase = useCallback((caseId) => {
+    soundEngine.init();
+    setSelectedCaseId(caseId);
+    setIsVeg(false);
+    setShowResult(false);
+    setResult(null);
+  }, []);
+
+  const handleBackToSelector = useCallback(() => {
+    if (spinning) return;
+    setSelectedCaseId(null);
+    setShowResult(false);
+    setResult(null);
+  }, [spinning]);
 
   const handleSpin = useCallback(() => {
     if (spinning) return;
@@ -41,7 +60,6 @@ export default function App() {
     setShowResult(false);
     setResult(null);
     setSpinning(true);
-    setCounter(prev => incrementCounter(prev));
   }, [spinning]);
 
   const handleSpinComplete = useCallback((item) => {
@@ -93,27 +111,59 @@ export default function App() {
         {/* Header */}
         <header className="header">
           <h1 className="header__title">Ăn đéo gì giờ</h1>
-
         </header>
 
-        {/* Reel */}
-        <Reel
-          foods={foods}
-          spinning={spinning}
-          onComplete={handleSpinComplete}
-          isVeg={isVeg}
-        />
+        {/* 1. MÀN HÌNH CHỌN HÒM (KHI CHƯA CHỌN HÒM) */}
+        {!selectedCaseId ? (
+          <CaseSelector onSelectCase={handleSelectCase} />
+        ) : (
+          /* 2. MÀN HÌNH QUAY HÒM ĐÃ CHỌN */
+          <div className="case-opening-view">
+            {/* Thanh điều hướng đổi hòm */}
+            <div className="case-nav-bar">
+              <button
+                className="case-nav-bar__back-btn"
+                onClick={handleBackToSelector}
+                disabled={spinning}
+                title="Quay lại danh sách chọn hòm"
+              >
+                ← CHỌN HÒM KHÁC
+              </button>
 
-        {/* Controls */}
-        <Controls
-          isVeg={isVeg}
-          onToggleVeg={() => !spinning && setIsVeg(v => !v)}
-          onSpin={handleSpin}
-          spinning={spinning}
-        />
+              <div className="case-nav-bar__current">
+                <span className="case-nav-bar__icon">{currentCase.icon}</span>
+                <span className="case-nav-bar__name">{currentCase.name}</span>
+                <span
+                  className="case-nav-bar__badge"
+                  style={{ background: currentCase.color }}
+                >
+                  {currentCase.badge}
+                </span>
+              </div>
+            </div>
 
-        {/* Vật phẩm trong hòm */}
-        <ItemGallery foods={foods} />
+            {/* Reel cuộn mở hòm */}
+            <Reel
+              foods={foods}
+              spinning={spinning}
+              onComplete={handleSpinComplete}
+              isVeg={isVeg}
+              caseId={selectedCaseId}
+            />
+
+            {/* Controls */}
+            <Controls
+              isVeg={isVeg}
+              onToggleVeg={() => !spinning && setIsVeg(v => !v)}
+              onSpin={handleSpin}
+              spinning={spinning}
+              hasVegToggle={currentCase.hasVegToggle}
+            />
+
+            {/* Vật phẩm trong hòm */}
+            <ItemGallery foods={foods} />
+          </div>
+        )}
       </main>
 
       {/* Result Modal */}

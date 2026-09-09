@@ -30,7 +30,7 @@ const cs2BezierEase = createCubicBezier(0.12, 0.78, 0.18, 1.0);
 /**
  * CS2-style Reel — Dải cuộn mở hòm với cơ chế Vàng Secret (Special Rare Item)
  */
-export default function Reel({ foods, spinning, onComplete, isVeg = false }) {
+export default function Reel({ foods, spinning, onComplete, isVeg = false, caseId = 'main' }) {
   const containerRef = useRef(null);
   const stripRef = useRef(null);
   const animRef = useRef(null);
@@ -234,9 +234,9 @@ export default function Reel({ foods, spinning, onComplete, isVeg = false }) {
           allItems[winningIndex].classList.add('selected');
         }
 
-        // NẾU MỞ TRÚNG VÀNG SECRET: Bốc ngẫu nhiên 1 món xa xỉ đắt tiền tương ứng!
+        // NẾU MỞ TRÚNG VÀNG SECRET: Bốc ngẫu nhiên 1 món xa xỉ đắt tiền tương ứng của case!
         if (itemAtNeedle.isSpecialGold) {
-          const secretGoldDish = getRandomSecretGold(isVeg);
+          const secretGoldDish = getRandomSecretGold(caseId, isVeg);
           onComplete(secretGoldDish);
         } else {
           onComplete(itemAtNeedle);
