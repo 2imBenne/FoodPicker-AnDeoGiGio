@@ -677,8 +677,10 @@ body::before {
   transition: all 0.2s;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  text-decoration: none;
   gap: 0.4rem;
 }
 .result-modal__find-btn:hover {

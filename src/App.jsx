@@ -67,25 +67,8 @@ export default function App() {
   }, []);
 
   const handleFindRestaurant = useCallback(() => {
-    if (!result) return;
-    const doSearch = (lat, lng) => {
-      const q = encodeURIComponent(`${result.search} quán gần đây`);
-      const url = lat != null
-        ? `https://www.google.com/maps/search/${q}/@${lat},${lng},15z`
-        : `https://www.google.com/maps/search/${q}`;
-      window.open(url, '_blank');
-    };
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        pos => doSearch(pos.coords.latitude, pos.coords.longitude),
-        () => doSearch(null, null),
-        { timeout: 5000, enableHighAccuracy: false }
-      );
-    } else {
-      doSearch(null, null);
-    }
-  }, [result]);
+    // Trình duyệt tự mở tab Google Maps thông qua thẻ <a> có sẵn href và target="_blank"
+  }, []);
 
   const handleToggleMute = useCallback(() => {
     const isMuted = soundEngine.toggleMute();

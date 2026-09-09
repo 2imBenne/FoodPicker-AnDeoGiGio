@@ -8,6 +8,10 @@ export default function ResultModal({ item, onContinue, onFindRestaurant }) {
   const isGold = item.isSpecialGold || item.rarity === 'gold';
   const rarityColor = RARITY_COLORS[item.rarity] || (isGold ? '#f0c040' : RARITY_COLORS.blue);
 
+  // Tạo URL Google Maps tìm quán gần vị trí hiện tại của người dùng
+  const cleanName = item.search || item.name.replace(/[★*]/g, '').trim();
+  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`quán ${cleanName} gần đây`)}`;
+
   return (
     <div className={`result-overlay ${isGold ? 'result-overlay--gold' : ''}`} onClick={onContinue}>
       <div
@@ -59,12 +63,17 @@ export default function ResultModal({ item, onContinue, onFindRestaurant }) {
         </div>
 
         <div className="result-modal__actions">
-          <button
+          <a
+            href={mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className={`result-modal__find-btn ${isGold ? 'result-modal__find-btn--gold' : ''}`}
-            onClick={onFindRestaurant}
+            onClick={(e) => {
+              if (onFindRestaurant) onFindRestaurant(e);
+            }}
           >
             {isGold ? 'TÌM QUÁN SANG CHẢNH ↗' : 'TÌM QUÁN ↗'}
-          </button>
+          </a>
           <button className="result-modal__continue-btn" onClick={onContinue}>
             TIẾP TỤC
           </button>
