@@ -36,6 +36,13 @@ export const MEAT_FOODS = [
     rarity: 'purple',
   },
   {
+    name: 'Đồ Nướng',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSq1goxG70zRb4weeT_11viLE3B03IaZICVH_VfelWX3W_Trk591rTXK1c5&s=10',
+    price: 150000,
+    search: 'đồ nướng',
+    rarity: 'red',
+  },
+  {
     name: 'Cơm Tấm Sườn',
     image: 'https://file.hstatic.net/200000700229/article/com-tam-suon-1_20db4b3a018143578203fc26bad888c2.jpg',
     price: 40000,
