@@ -4,13 +4,22 @@ import { RARITY_COLORS, formatPrice } from '../data/foods';
  * Result Modal — Hiển thị sau khi quay xong
  * Hỗ trợ phong cách VÀNG SECRET đặc biệt như mở ra Dao/Găng trong CS2
  */
-export default function ResultModal({ item, onContinue, onFindRestaurant }) {
+export default function ResultModal({ item, onContinue, onFindRestaurant, userCoords = null }) {
   const isGold = item.isSpecialGold || item.rarity === 'gold';
   const rarityColor = RARITY_COLORS[item.rarity] || (isGold ? '#f0c040' : RARITY_COLORS.blue);
 
-  // Tạo URL Google Maps tìm quán gần vị trí hiện tại của người dùng
+  // Tạo URL Google Maps ưu tiên quán gần nhất kết hợp toạ độ GPS chính xác
   const cleanName = item.search || item.name.replace(/[★*]/g, '').trim();
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`quán ${cleanName} gần đây`)}`;
+  const queryStr = encodeURIComponent(`quán ${cleanName} gần nhất`);
+
+  let mapsUrl;
+  if (userCoords?.lat && userCoords?.lng) {
+    // Nếu có toạ độ GPS: đưa tâm bản đồ trực tiếp vào toạ độ người dùng để Maps ưu tiên quán sát cạnh
+    mapsUrl = `https://www.google.com/maps/search/${queryStr}/@${userCoords.lat},${userCoords.lng},15z`;
+  } else {
+    // Dự phòng khi chưa cấp quyền vị trí
+    mapsUrl = `https://www.google.com/maps/search/?api=1&query=${queryStr}`;
+  }
 
   return (
     <div className={`result-overlay ${isGold ? 'result-overlay--gold' : ''}`} onClick={onContinue}>
@@ -72,12 +81,16 @@ export default function ResultModal({ item, onContinue, onFindRestaurant }) {
               if (onFindRestaurant) onFindRestaurant(e);
             }}
           >
-            {isGold ? 'TÌM QUÁN SANG CHẢNH ↗' : 'TÌM QUÁN ↗'}
+            {isGold ? 'TÌM QUÁN GẦN NHẤT (VIP) ↗' : 'TÌM QUÁN GẦN NHẤT ↗'}
           </a>
           <button className="result-modal__continue-btn" onClick={onContinue}>
             TIẾP TỤC
           </button>
         </div>
+
+        <p className="result-modal__maps-hint">
+          📍 Bản đồ đã khoanh vùng toạ độ gần bạn nhất. Bấm <b>"Sắp xếp theo"</b> trên Google Maps nếu muốn lọc chuẩn từng mét!
+        </p>
       </div>
     </div>
   );

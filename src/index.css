@@ -713,6 +713,21 @@ body::before {
   background: var(--bg-surface);
 }
 
+.result-modal__maps-hint {
+  margin-top: 1rem;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  text-align: center;
+  max-width: 440px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.85;
+}
+.result-modal__maps-hint b {
+  color: var(--accent-orange);
+}
+
 /* ============================================
    CS2 GOLD SECRET RESULT MODAL
    ============================================ */

@@ -24,7 +24,24 @@ export default function App() {
   const [result, setResult] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [userCoords, setUserCoords] = useState(null);
   const confettiRef = useRef(null);
+
+  // Lấy toạ độ người dùng trước để tối ưu tìm quán gần nhất trên Google Maps
+  useEffect(() => {
+    if (typeof navigator !== 'undefined' && 'geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setUserCoords({
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          });
+        },
+        () => {},
+        { enableHighAccuracy: false, timeout: 6000, maximumAge: 300000 }
+      );
+    }
+  }, []);
 
   // Lấy thông tin Case hiện tại
   const currentCase = useMemo(() => {
@@ -170,6 +187,7 @@ export default function App() {
       {showResult && result && (
         <ResultModal
           item={result}
+          userCoords={userCoords}
           onContinue={handleContinue}
           onFindRestaurant={handleFindRestaurant}
         />
