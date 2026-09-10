@@ -79,9 +79,9 @@ export const MEAT_FOODS = [
   },
   {
     name: 'Hủ Tiếu Nam Vang',
-    image: 'https://vietair.com.vn/Media/Images/vietair/Tin-tuc/2024/3/hu-tieu-nam-vang-1.jpg?p=1&w=412',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqFgEAYrGfgYknzfFNvGwBlaq9Fi-UNk0EBconYKgNIn-Bt9STb14kE3-9&s=10',
     price: 40000,
-    search: 'hủ tiếu',
+    search: 'hủ tiếu nam vang',
     rarity: 'blue',
   },
   {
