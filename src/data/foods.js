@@ -872,7 +872,7 @@ export const PLACES_DATA = [
   {
     isPlace: true,
     name: 'Picnic Ngoài Trời',
-    image: 'https://images.unsplash.com/photo-1526401485004-46910ecc8e51?w=400&h=400&fit=crop&auto=format',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEi2nbn53bV6EiO_GeowDzeAo9e03YrYmAoSSTx6iuOzYF7q-2ks7iwcom&s=10',
     price: 100000,
     search: 'địa điểm picnic',
     rarity: 'red',
@@ -881,7 +881,7 @@ export const PLACES_DATA = [
   {
     isPlace: true,
     name: 'Công Viên Nước / Khu Vui Chơi',
-    image: 'https://images.unsplash.com/photo-1600166898405-da9535204843?w=400&h=400&fit=crop&auto=format',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8gYLY4ra0gF5g1kR1-jwOQdtx3MmxJLntl3Yql1m_GKH0yZBt-29uhPc&s=10',
     price: 350000,
     search: 'công viên nước khu vui chơi giải trí',
     rarity: 'red',
