@@ -32,16 +32,12 @@ export default function ItemGallery({ foods }) {
               title={titleAttr}
             >
               <div className="gallery__card-img-wrap">
-                {item.vibe && isPlaceCase ? (
-                  <span className="gallery__card-vibe">{item.vibe}</span>
-                ) : (
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="gallery__card-img"
-                    loading="lazy"
-                  />
-                )}
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="gallery__card-img"
+                  loading="lazy"
+                />
               </div>
 
               <div className="gallery__card-info">
