@@ -48,9 +48,14 @@ export default function Reel({ foods, spinning, onComplete, isVeg = false, caseI
       items.push(...shuffled);
     }
 
-    // Chèn 5 thẻ Vàng Secret vào các vị trí chiến lược
-    // để người chơi thấy lướt qua kịch tính (nhất là trong vùng cuộn dừng 50 - 75)
-    const goldPositions = [16, 34, 52, 63, 75];
+    // Vị trí dừng mục tiêu là từ 60% đến 80% chiều dài dải.
+    // Để tạo cảm giác hồi hộp chuẩn CS2:
+    // - 1 thẻ Vàng ở đoạn đầu (~22% dải) lướt nhanh qua tầm mắt tạo sự hào hứng
+    // - Đúng 1 thẻ Vàng ở đoạn dừng (~70% dải) để tạo kịch tính Near-Miss hoặc trúng thưởng
+    const earlyGoldPos = Math.floor(items.length * 0.22);
+    const stopZoneGoldPos = Math.floor(items.length * 0.70);
+    const goldPositions = [earlyGoldPos, stopZoneGoldPos];
+
     goldPositions.forEach(pos => {
       if (pos < items.length) {
         items[pos] = { ...GOLD_SPECIAL_CARD };
@@ -66,6 +71,10 @@ export default function Reel({ foods, spinning, onComplete, isVeg = false, caseI
     if (!strip) return;
     strip.innerHTML = '';
 
+    const isPlaceCase = caseId === 'places';
+    const goldTitle = isPlaceCase ? '★ ĐỊA ĐIỂM BÍ ẨN ★' : '★ MÓN SIÊU HIẾM ★';
+    const goldIcon = isPlaceCase ? '🗺️' : '👑';
+
     const frag = document.createDocumentFragment();
     items.forEach(item => {
       const el = document.createElement('div');
@@ -76,10 +85,10 @@ export default function Reel({ foods, spinning, onComplete, isVeg = false, caseI
           <div class="reel-item__gold-wrap">
             <div class="reel-item__gold-badge">★ SPECIAL RARE ★</div>
             <div class="reel-item__gold-star">★</div>
-            <div class="reel-item__gold-icon">👑</div>
+            <div class="reel-item__gold-icon">${goldIcon}</div>
             <div class="reel-item__gold-secret">SECRET</div>
           </div>
-          <span class="reel-item__name reel-item__name--gold">★ MÓN SIÊU HIẾM ★</span>
+          <span class="reel-item__name reel-item__name--gold">${goldTitle}</span>
           <div class="reel-item__rarity" style="background:#f0c040"></div>
         `;
       } else {
@@ -97,13 +106,15 @@ export default function Reel({ foods, spinning, onComplete, isVeg = false, caseI
       frag.appendChild(el);
     });
     strip.appendChild(frag);
-  }, []);
+  }, [caseId]);
 
   const prevFoodsRef = useRef(foods);
-  // Khởi tạo dải ban đầu hoặc khi đổi chế độ món
+  const prevCaseIdRef = useRef(caseId);
+  // Khởi tạo dải ban đầu hoặc khi đổi chế độ món / hòm
   useEffect(() => {
-    const foodsChanged = prevFoodsRef.current !== foods;
+    const foodsChanged = prevFoodsRef.current !== foods || prevCaseIdRef.current !== caseId;
     prevFoodsRef.current = foods;
+    prevCaseIdRef.current = caseId;
 
     if (!spinning && (!hasSpunRef.current || foodsChanged)) {
       const items = buildStripItems();
@@ -113,7 +124,7 @@ export default function Reel({ foods, spinning, onComplete, isVeg = false, caseI
         stripRef.current.style.transform = 'translateX(0)';
       }
     }
-  }, [foods, spinning, buildStripItems, renderStrip]);
+  }, [foods, caseId, spinning, buildStripItems, renderStrip]);
 
   // Bắt đầu quay khi prop spinning = true
   useEffect(() => {
@@ -153,34 +164,48 @@ export default function Reel({ foods, spinning, onComplete, isVeg = false, caseI
     const minIdx = Math.floor(items.length * 0.6);
     const maxIdx = Math.floor(items.length * 0.8);
 
-    // Lọc các vị trí thẻ Vàng trong khoảng dừng
+    // Tách riêng danh sách vị trí thẻ Vàng và thẻ Thường trong khoảng dừng
     const goldIndices = [];
-    items.forEach((item, idx) => {
-      if (item.isSpecialGold && idx >= minIdx && idx <= maxIdx) {
+    const nonGoldIndices = [];
+    for (let idx = minIdx; idx <= maxIdx; idx++) {
+      if (items[idx].isSpecialGold) {
         goldIndices.push(idx);
+      } else {
+        nonGoldIndices.push(idx);
       }
-    });
+    }
 
-    // Tỷ lệ nổ VÀNG SECRET chuẩn hồi hộp CS2 (~6% cơ hội)
-    const hitGold = goldIndices.length > 0 && Math.random() < 0.06;
+    // Tỉ lệ nổ VÀNG SECRET siêu hiếm chuẩn CS2:
+    // 1% cơ hội (~1/100 lần quay), mang lại độ hiếm thực sự và cảm giác sang trọng, đắt tiền
+    const GOLD_DROP_RATE = 0.01;
+    const hitGold = goldIndices.length > 0 && Math.random() < GOLD_DROP_RATE;
 
     let targetIndex;
     if (hitGold) {
+      // Trúng Vàng Secret: chọn ô Vàng
       targetIndex = goldIndices[Math.floor(Math.random() * goldIndices.length)];
     } else {
-      // Cơ chế "Near Miss" kinh điển CS2: 25% cơ hội dừng ngay sát vách thẻ Vàng (+1 hoặc -1)
-      const isNearMiss = goldIndices.length > 0 && Math.random() < 0.25;
+      // KHÔNG trúng Vàng: 100% ra thẻ thường
+      // Cơ chế "Near Miss" kinh điển CS2: 20% cơ hội dừng ngay sát vách thẻ Vàng (+1 hoặc -1)
+      const isNearMiss = goldIndices.length > 0 && Math.random() < 0.20;
+      let picked = false;
+
       if (isNearMiss) {
         const nearGold = goldIndices[Math.floor(Math.random() * goldIndices.length)];
         const offset = Math.random() < 0.5 ? -1 : 1;
         const candidate = nearGold + offset;
-        if (candidate >= minIdx && candidate <= maxIdx && !items[candidate].isSpecialGold) {
+        // BẮT BUỘC: candidate phải nằm trong [minIdx, maxIdx] và TUYỆT ĐỐI KHÔNG phải thẻ Vàng
+        if (candidate >= minIdx && candidate <= maxIdx && !items[candidate]?.isSpecialGold) {
           targetIndex = candidate;
-        } else {
-          targetIndex = minIdx + Math.floor(Math.random() * (maxIdx - minIdx));
+          picked = true;
         }
-      } else {
-        targetIndex = minIdx + Math.floor(Math.random() * (maxIdx - minIdx));
+      }
+
+      if (!picked && nonGoldIndices.length > 0) {
+        // BẮT BUỘC: Chỉ lấy từ nonGoldIndices để đảm bảo 100% không bao giờ trúng thẻ vàng
+        targetIndex = nonGoldIndices[Math.floor(Math.random() * nonGoldIndices.length)];
+      } else if (!picked) {
+        targetIndex = minIdx;
       }
     }
 
@@ -223,9 +248,8 @@ export default function Reel({ foods, spinning, onComplete, isVeg = false, caseI
         strip.style.transform = `translateX(${targetPos}px)`;
         if (rollSoundRef.current) rollSoundRef.current.stop();
 
-        // Xác định chính xác món nằm dưới kim chỉ ở trạng thái cuối cùng
-        const finalNeedlePos = (containerWidth / 2) - targetPos - paddingLeft;
-        const winningIndex = Math.max(0, Math.min(items.length - 1, Math.floor(finalNeedlePos / itemTotal)));
+        // Thẻ chiến thắng chính xác là targetIndex
+        const winningIndex = targetIndex;
         const itemAtNeedle = items[winningIndex];
 
         // Highlight thẻ chiến thắng
