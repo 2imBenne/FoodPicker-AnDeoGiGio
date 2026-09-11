@@ -129,7 +129,17 @@ export default function App() {
       <main className="main-content">
         {/* Header */}
         <header className="header">
-          <h1 className="header__title">Ăn đéo gì giờ</h1>
+          <div
+            className={`header__brand ${selectedCaseId ? 'header__brand--clickable' : ''}`}
+            onClick={selectedCaseId && !spinning ? handleBackToSelector : undefined}
+            title={selectedCaseId ? 'Bấm để quay về Kho Hòm' : 'Ăn Đéo Gì Giờ'}
+          >
+            <img src="/logo.png" alt="Ăn Đéo Gì Giờ Logo" className="header__logo" />
+            <div className="header__text-group">
+              <h1 className="header__title">Ăn đéo gì giờ</h1>
+              <span className="header__subtitle">CS2 FOOD & DATE PICKER</span>
+            </div>
+          </div>
         </header>
 
         {/* 1. MÀN HÌNH CHỌN HÒM (KHI CHƯA CHỌN HÒM) */}
