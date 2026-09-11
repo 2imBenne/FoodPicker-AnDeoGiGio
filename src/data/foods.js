@@ -1,13 +1,15 @@
 /**
- * Food data với image URL từ Unsplash/Pexels (free to use, CDN-backed)
+ * Food & Places data với image URL từ Unsplash/Pexels (free to use, CDN-backed)
  *
  * Mỗi item có:
- * - name: Tên món
+ * - name: Tên món / địa điểm
  * - image: URL ảnh chất lượng cao
- * - price: Giá tham khảo (VNĐ)
+ * - price: Giá / chi phí tham khảo (VNĐ)
  * - search: Từ khóa tìm trên Google Maps
- * - rarity: Màu thanh rarity CS2 (red, blue, purple, pink, gold)
- * - isVeg: true nếu là món chay
+ * - rarity: Màu thanh rarity CS2 (gray, blue, purple, pink, red, gold)
+ * - isVeg: true nếu là món chay (chỉ dùng cho food)
+ * - isPlace: true nếu là địa điểm (dùng để phân biệt trong ResultModal)
+ * - vibe: emoji icon đặc trưng của địa điểm
  */
 
 // Rarity colors giống CS2:
@@ -754,7 +756,161 @@ export const SECRET_GOLD_DESSERTS = [
   },
 ];
 
-/** Danh mục các Hòm trong CS2 Food Picker */
+/**
+ * PLACES_DATA — Địa điểm đi chơi / hẹn hò Gen Z
+ * isPlace: true để ResultModal hiển thị "Tìm Địa Điểm" thay vì "Tìm Quán"
+ */
+export const PLACES_DATA = [
+  {
+    isPlace: true,
+    name: 'Công Viên',
+    image: 'https://images.unsplash.com/photo-1588714477688-cf28a50e94f7?w=400&h=400&fit=crop&auto=format',
+    price: 0,
+    search: 'công viên',
+    rarity: 'gray',
+    vibe: '🌿',
+  },
+  {
+    isPlace: true,
+    name: 'Cà Phê Chill',
+    image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=400&fit=crop&auto=format',
+    price: 55000,
+    search: 'quán cà phê view đẹp',
+    rarity: 'gray',
+    vibe: '☕',
+  },
+  {
+    isPlace: true,
+    name: 'Xem Phim Rạp',
+    image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400&h=400&fit=crop&auto=format',
+    price: 120000,
+    search: 'rạp chiếu phim',
+    rarity: 'blue',
+    vibe: '🎬',
+  },
+  {
+    isPlace: true,
+    name: 'Trung Tâm Thương Mại',
+    image: 'https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?w=400&h=400&fit=crop&auto=format',
+    price: 0,
+    search: 'trung tâm thương mại',
+    rarity: 'blue',
+    vibe: '🛍️',
+  },
+  {
+    isPlace: true,
+    name: 'Photobooth',
+    image: 'https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?w=400&h=400&fit=crop&auto=format',
+    price: 50000,
+    search: 'photobooth',
+    rarity: 'blue',
+    vibe: '📸',
+  },
+  {
+    isPlace: true,
+    name: 'Thư Viện / Đọc Sách',
+    image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=400&h=400&fit=crop&auto=format',
+    price: 0,
+    search: 'thư viện',
+    rarity: 'blue',
+    vibe: '📚',
+  },
+  {
+    isPlace: true,
+    name: 'Workshop Thủ Công',
+    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop&auto=format',
+    price: 250000,
+    search: 'workshop làm đồ thủ công',
+    rarity: 'purple',
+    vibe: '🎨',
+  },
+  {
+    isPlace: true,
+    name: 'Tô Tượng / Sơn Đất Nung',
+    image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=400&h=400&fit=crop&auto=format',
+    price: 200000,
+    search: 'tô tượng sơn đất nung',
+    rarity: 'purple',
+    vibe: '🏺',
+  },
+  {
+    isPlace: true,
+    name: 'Escape Room',
+    image: 'https://images.unsplash.com/photo-1588421357574-87938a86fa28?w=400&h=400&fit=crop&auto=format',
+    price: 280000,
+    search: 'escape room',
+    rarity: 'purple',
+    vibe: '🔐',
+  },
+  {
+    isPlace: true,
+    name: 'Karaoke',
+    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=400&fit=crop&auto=format',
+    price: 200000,
+    search: 'karaoke',
+    rarity: 'pink',
+    vibe: '🎤',
+  },
+  {
+    isPlace: true,
+    name: 'Bowling / Billiards',
+    image: 'https://images.unsplash.com/photo-1593766788306-28561086694e?w=400&h=400&fit=crop&auto=format',
+    price: 150000,
+    search: 'bowling billiards',
+    rarity: 'pink',
+    vibe: '🎳',
+  },
+  {
+    isPlace: true,
+    name: 'Picnic Ngoài Trời',
+    image: 'https://images.unsplash.com/photo-1526401485004-46910ecc8e51?w=400&h=400&fit=crop&auto=format',
+    price: 100000,
+    search: 'địa điểm picnic',
+    rarity: 'red',
+    vibe: '🧺',
+  },
+  {
+    isPlace: true,
+    name: 'Công Viên Nước / Khu Vui Chơi',
+    image: 'https://images.unsplash.com/photo-1600166898405-da9535204843?w=400&h=400&fit=crop&auto=format',
+    price: 350000,
+    search: 'công viên nước khu vui chơi giải trí',
+    rarity: 'red',
+    vibe: '🎡',
+  },
+];
+
+/**
+ * SECRET_GOLD_PLACES — Địa điểm Vàng Secret siêu hiếm: Du lịch bí ẩn!
+ */
+export const SECRET_GOLD_PLACES = [
+  {
+    isPlace: true,
+    isSpecialGold: true,
+    name: '★ Du Lịch Bí Ẩn 1 Ngày ★',
+    image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=500&h=500&fit=crop&auto=format',
+    price: 1500000,
+    search: 'địa điểm du lịch gần thành phố',
+    rarity: 'gold',
+    vibe: '✈️',
+    quote: 'Cứ đi đi, đừng nghĩ nhiều! Một ngày phiêu lưu bí ẩn đang chờ đón!',
+    tier: '★ EXCEEDINGLY RARE SPECIAL ITEM ★',
+  },
+  {
+    isPlace: true,
+    isSpecialGold: true,
+    name: '★ Glamping / Cắm Trại Sang Chảnh ★',
+    image: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&h=500&fit=crop&auto=format',
+    price: 2000000,
+    search: 'glamping cắm trại sang trọng',
+    rarity: 'gold',
+    vibe: '⛺',
+    quote: 'Giữa thiên nhiên hùng vĩ, dưới bầu trời sao — trải nghiệm đỉnh cao chờ bạn!',
+    tier: '★ EXCEEDINGLY RARE SPECIAL ITEM ★',
+  },
+];
+
+/** Danh mục tất cả các Hòm */
 export const CASES_CONFIG = [
   {
     id: 'main',
@@ -796,9 +952,19 @@ export const CASES_CONFIG = [
     color: '#d32ce6',
     hasVegToggle: false,
   },
+  {
+    id: 'places',
+    name: 'Hòm Địa Điểm',
+    subtitle: 'Đi Đâu Hôm Nay?',
+    desc: 'Công viên, xem phim, photobooth, workshop, escape room, karaoke, bowling...',
+    icon: '🗺️',
+    badge: 'ĐỊA ĐIỂM',
+    color: '#00c9a7',
+    hasVegToggle: false,
+  },
 ];
 
-/** Lấy ngẫu nhiên 1 món Vàng Secret theo Case và chế độ Chay */
+/** Lấy ngẫu nhiên 1 vật phẩm Vàng Secret theo Case và chế độ Chay */
 export function getRandomSecretGold(caseId = 'main', isVeg = false) {
   let pool;
   if (caseId === 'snacks') {
@@ -807,6 +973,8 @@ export function getRandomSecretGold(caseId = 'main', isVeg = false) {
     pool = SECRET_GOLD_DRINKS;
   } else if (caseId === 'desserts') {
     pool = SECRET_GOLD_DESSERTS;
+  } else if (caseId === 'places') {
+    pool = SECRET_GOLD_PLACES;
   } else {
     pool = isVeg ? SECRET_GOLD_VEG : SECRET_GOLD_MEAT;
   }

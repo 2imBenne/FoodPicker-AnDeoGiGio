@@ -6,6 +6,7 @@ import {
   SNACK_FOODS,
   DRINK_FOODS,
   DESSERT_FOODS,
+  PLACES_DATA,
 } from './data/foods';
 import { soundEngine } from './utils/sound';
 import CaseSelector from './components/CaseSelector';
@@ -48,11 +49,12 @@ export default function App() {
     return CASES_CONFIG.find(c => c.id === selectedCaseId) || CASES_CONFIG[0];
   }, [selectedCaseId]);
 
-  // Lấy danh sách món ăn cho Case đang mở
+  // Lấy danh sách vật phẩm (món ăn hoặc địa điểm) cho Case đang mở
   const foods = useMemo(() => {
     if (selectedCaseId === 'snacks') return SNACK_FOODS;
     if (selectedCaseId === 'drinks') return DRINK_FOODS;
     if (selectedCaseId === 'desserts') return DESSERT_FOODS;
+    if (selectedCaseId === 'places') return PLACES_DATA;
     return isVeg ? VEG_FOODS : MEAT_FOODS;
   }, [selectedCaseId, isVeg]);
 

@@ -552,6 +552,17 @@ body::before {
   animation: pulse 2s infinite ease-in-out;
 }
 
+/* Emoji vibe icon cho Place items trong gallery */
+.gallery__card-vibe {
+  font-size: 1.9rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+  transition: transform 0.25s ease;
+}
+.gallery__card:hover .gallery__card-vibe {
+  transform: scale(1.15);
+}
+
 .gallery__card-name--gold {
   color: #ffd700 !important;
   font-weight: 700;
@@ -837,6 +848,18 @@ body::before {
   background: linear-gradient(135deg, #ffe066 0%, #ffa500 100%) !important;
   box-shadow: 0 0 30px rgba(255, 215, 0, 0.8) !important;
   transform: translateY(-2px);
+}
+
+/* Place case button — Màu mint Gen Z (#00c9a7) */
+.result-modal__find-btn--place {
+  background: rgba(0, 201, 167, 0.15) !important;
+  border-color: #00c9a7 !important;
+  color: #00c9a7 !important;
+}
+.result-modal__find-btn--place:hover {
+  background: rgba(0, 201, 167, 0.3) !important;
+  box-shadow: 0 0 16px rgba(0, 201, 167, 0.35) !important;
+  color: #fff !important;
 }
 
 /* ============================================

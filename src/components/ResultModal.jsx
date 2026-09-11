@@ -1,25 +1,38 @@
-import { RARITY_COLORS, formatPrice } from '../data/foods';
+﻿import { RARITY_COLORS, formatPrice } from '../data/foods';
 
 /**
  * Result Modal — Hiển thị sau khi quay xong
  * Hỗ trợ phong cách VÀNG SECRET đặc biệt như mở ra Dao/Găng trong CS2
+ * Tự động phát hiện isPlace để hiển thị đúng label cho địa điểm vs món ăn
  */
 export default function ResultModal({ item, onContinue, onFindRestaurant, userCoords = null }) {
   const isGold = item.isSpecialGold || item.rarity === 'gold';
+  const isPlace = !!item.isPlace;
   const rarityColor = RARITY_COLORS[item.rarity] || (isGold ? '#f0c040' : RARITY_COLORS.blue);
 
-  // Tạo URL Google Maps ưu tiên quán gần nhất kết hợp toạ độ GPS chính xác
+  // Tạo URL Google Maps: địa điểm không cần prefix "quán", dùng trực tiếp search term
   const cleanName = item.search || item.name.replace(/[★*]/g, '').trim();
-  const queryStr = encodeURIComponent(`quán ${cleanName} gần nhất`);
+  const queryStr = isPlace
+    ? encodeURIComponent(`${cleanName} gần đây`)
+    : encodeURIComponent(`quán ${cleanName} gần nhất`);
 
   let mapsUrl;
   if (userCoords?.lat && userCoords?.lng) {
-    // Nếu có toạ độ GPS: đưa tâm bản đồ trực tiếp vào toạ độ người dùng để Maps ưu tiên quán sát cạnh
     mapsUrl = `https://www.google.com/maps/search/${queryStr}/@${userCoords.lat},${userCoords.lng},15z`;
   } else {
-    // Dự phòng khi chưa cấp quyền vị trí
     mapsUrl = `https://www.google.com/maps/search/?api=1&query=${queryStr}`;
   }
+
+  // Labels phân biệt food vs place
+  const itemLabel = isPlace ? 'ĐỊA ĐIỂM GỢI Ý' : 'VẬT PHẨM MỚI';
+  const goldLabel = isPlace ? '🗺️ BẠN ĐÃ MỞ TRÚNG ĐỊA ĐIỂM BÍ ẨN! 🗺️' : '👑 BẠN ĐÃ MỞ TRÚNG VÀNG SECRET! 👑';
+  const priceLabel = isPlace ? 'Chi phí tham khảo' : 'Giá tham khảo';
+  const findBtnText = isPlace
+    ? (isGold ? 'TÌM ĐỊA ĐIỂM BÍ ẨN ↗' : 'TÌM ĐỊA ĐIỂM TRÊN MAPS ↗')
+    : (isGold ? 'TÌM QUÁN GẦN NHẤT (VIP) ↗' : 'TÌM QUÁN GẦN NHẤT ↗');
+  const mapsHint = isPlace
+    ? '📍 Bản đồ đã khoanh vùng địa điểm gần bạn nhất. Đi nào!'
+    : '📍 Bản đồ đã khoanh vùng toạ độ gần bạn nhất. Bấm "Sắp xếp theo" trên Google Maps nếu muốn lọc chuẩn từng mét!';
 
   return (
     <div className={`result-overlay ${isGold ? 'result-overlay--gold' : ''}`} onClick={onContinue}>
@@ -31,11 +44,13 @@ export default function ResultModal({ item, onContinue, onFindRestaurant, userCo
           <div className="result-modal__gold-header">
             <span className="result-modal__gold-badge">★ EXCEEDINGLY RARE SPECIAL ITEM ★</span>
             <p className="result-modal__label result-modal__label--gold">
-              👑 BẠN ĐÃ MỞ TRÚNG VÀNG SECRET! 👑
+              {goldLabel}
             </p>
           </div>
         ) : (
-          <p className="result-modal__label">VẬT PHẨM MỚI</p>
+          <p className="result-modal__label">
+            {item.vibe ? `${item.vibe} ${itemLabel}` : itemLabel}
+          </p>
         )}
 
         <h2 className={`result-modal__name ${isGold ? 'result-modal__name--gold' : ''}`}>
@@ -44,12 +59,14 @@ export default function ResultModal({ item, onContinue, onFindRestaurant, userCo
 
         <p className={`result-modal__price ${isGold ? 'result-modal__price--gold' : ''}`}>
           {isGold && <span className="gold-icon-star">★ </span>}
-          Giá tham khảo · ~{formatPrice(item.price)} / người
+          {item.price === 0
+            ? `${priceLabel} · Miễn phí! 🎉`
+            : `${priceLabel} · ~${formatPrice(item.price)} / người`}
         </p>
 
         {isGold && item.quote && (
           <div className="result-modal__gold-quote">
-            <span className="quote-tag">⚠️ CẢNH BÁO VÍ TIỀN:</span>
+            <span className="quote-tag">{isPlace ? '🗺️ THÁM TỬ ĐỊA ĐIỂM:' : '⚠️ CẢNH BÁO VÍ TIỀN:'}</span>
             <p className="quote-text">"{item.quote}"</p>
           </div>
         )}
@@ -76,12 +93,12 @@ export default function ResultModal({ item, onContinue, onFindRestaurant, userCo
             href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className={`result-modal__find-btn ${isGold ? 'result-modal__find-btn--gold' : ''}`}
+            className={`result-modal__find-btn ${isGold ? 'result-modal__find-btn--gold' : ''} ${isPlace ? 'result-modal__find-btn--place' : ''}`}
             onClick={(e) => {
               if (onFindRestaurant) onFindRestaurant(e);
             }}
           >
-            {isGold ? 'TÌM QUÁN GẦN NHẤT (VIP) ↗' : 'TÌM QUÁN GẦN NHẤT ↗'}
+            {findBtnText}
           </a>
           <button className="result-modal__continue-btn" onClick={onContinue}>
             TIẾP TỤC
@@ -89,7 +106,7 @@ export default function ResultModal({ item, onContinue, onFindRestaurant, userCo
         </div>
 
         <p className="result-modal__maps-hint">
-          📍 Bản đồ đã khoanh vùng toạ độ gần bạn nhất. Bấm <b>"Sắp xếp theo"</b> trên Google Maps nếu muốn lọc chuẩn từng mét!
+          {mapsHint}
         </p>
       </div>
     </div>
